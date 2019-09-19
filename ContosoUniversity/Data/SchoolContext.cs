@@ -1,5 +1,9 @@
-﻿using ContosoUniversity.Models;
+﻿#region
+
+using ContosoUniversity.Models;
 using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace ContosoUniversity.Data
 {

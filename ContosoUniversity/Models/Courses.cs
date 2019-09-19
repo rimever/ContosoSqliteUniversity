@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+
+#endregion
 
 namespace ContosoUniversity.Models
 {
@@ -7,6 +11,7 @@ namespace ContosoUniversity.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int CourseID { get; set; }
+
         public string Title { get; set; }
         public int Credits { get; set; }
 

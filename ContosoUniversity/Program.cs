@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
 using ContosoUniversity.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+
+#endregion
 
 namespace ContosoUniversity
 {
@@ -28,10 +27,10 @@ namespace ContosoUniversity
                 catch (Exception ex)
                 {
                     var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex,"an error occured while seeding the database.");
-
+                    logger.LogError(ex, "an error occured while seeding the database.");
                 }
             }
+
             host.Run();
         }
 
