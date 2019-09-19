@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿#region
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ContosoUniversity.Data;
 using ContosoUniversity.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+#endregion
 
 namespace ContosoUniversity.Controllers
 {
@@ -20,7 +22,8 @@ namespace ContosoUniversity.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string sortOrder,string currentFilter,string searchString,int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString,
+            int? pageNumber)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -33,6 +36,7 @@ namespace ContosoUniversity.Controllers
             {
                 searchString = currentFilter;
             }
+
             ViewData["CurrentFilter"] = searchString;
             var students = from s in _context.Students
                 select s;
@@ -41,6 +45,7 @@ namespace ContosoUniversity.Controllers
                 students = students.Where(s => s.LastName.Contains(searchString)
                                                || s.FirstMidName.Contains(searchString));
             }
+
             switch (sortOrder)
             {
                 case "name_desc":
@@ -127,6 +132,7 @@ namespace ContosoUniversity.Controllers
             {
                 return NotFound();
             }
+
             return View(student);
         }
 
@@ -141,8 +147,9 @@ namespace ContosoUniversity.Controllers
             {
                 return NotFound();
             }
+
             var studentToUpdate = await _context.Students.FirstOrDefaultAsync(s => s.ID == id);
-            if (await TryUpdateModelAsync<Student>(
+            if (await TryUpdateModelAsync(
                 studentToUpdate,
                 "",
                 s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
@@ -160,6 +167,7 @@ namespace ContosoUniversity.Controllers
                                                  "see your system administrator.");
                 }
             }
+
             return View(studentToUpdate);
         }
 
@@ -185,6 +193,7 @@ namespace ContosoUniversity.Controllers
                     "Delete failed. Try again, and if the problem persists " +
                     "see your system administrator.";
             }
+
             return View(student);
         }
 
@@ -204,11 +213,10 @@ namespace ContosoUniversity.Controllers
                 _context.Students.Remove(student);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-
             }
             catch (Exception)
             {
-                return RedirectToAction(nameof(Delete), new {id = id, saveChangesError = true});
+                return RedirectToAction(nameof(Delete), new {id, saveChangesError = true});
             }
         }
 
